@@ -1,0 +1,93 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #F8EFEF;
+}
+
+.header{
+    display: grid;
+    
+    grid-template-columns: 1fr;
+}
+.header >div{
+   display: grid;
+   height: 50px;
+   background-color: #36B8B0;
+   text-align: center;
+   align-items: center;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.heading >h2{
+    color: white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: large;
+    background-color: #36B8B0;
+    
+}
+.footer{
+    bottom: 0;
+    position: fixed;
+    width: 100%;  
+}
+.footer >div{
+    display: grid;
+    height: 30px;
+    background-color: #C3B6B6;
+    
+ }
+ .Login{
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 500px;
+    align-items: center;
+    
+ }
+ .Login > div{
+    height: 270px;
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    margin: auto;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .10);
+ }
+ ::placeholder {
+    color: black;
+    font-family:sans-serif;
+    font-size: small;
+  }
+ .email{
+    display: grid;
+    grid-template-rows:1fr 1fr 1fr ;
+    background-color: white;
+    margin-top: 70px;
+    height: 150px;
+    
+ }
+
+ .email>input{
+    background-color:#E7E6E6;
+    width: 200px;
+    height: 30px;
+    margin: 10px;
+    margin-left: 25px;
+    border-radius: 10px;
+    padding: 15px;
+    border: none;
+    
+ }
+ .email>button{
+    background-color:#36B8B0;
+    width: 200px;
+    height: 30px;
+    font-size: small;
+    margin: 10px;
+    margin-left: 25px;
+    border-radius: 10px;
+    
+    border: none;
+    color: white;
+    text-align: center;
+    font-family: sans-serif;
+ }

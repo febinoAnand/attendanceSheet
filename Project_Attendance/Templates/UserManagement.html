@@ -1,10 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
-    <link rel="stylesheet" href="../static/css/UserManagement.css">
+    <!-- <link rel="stylesheet" href="{ static ../static/css/UserManagement.css }""{% static 'myfirst.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'css/UserManagement.css' %}">
+    
 </head>
 <body>
     <div class="background">
@@ -15,7 +18,7 @@
 
                 </div>
                 <div class="heading">
-                    <h2>History</h2>  
+                    <h2>User Management</h2>  
                 </div>
                 <div class="dropdown_btn">
                     <div class="dropdown">
@@ -23,15 +26,67 @@
                         
                         <div class="dropdown-content">
                         <a href="#">Dashboard</a>
-                        <a href="#">Change Password</a>
+                        <a href="#">History</a>
                         <a href="#">Logout</a>
                         </div>
                     </div>
                 </div>
 
         </div>
+        <div class="search_bar">
+            <input type="text" placeholder="Search..">
+        </div>
         <div class="content">
-           
+            <div class="signup">
+                <form action="/userManagement/" method="post">
+                    {% csrf_token %}
+                    <div class="inner_content">
+                        <div>
+                            <input name="username" type="text" placeholder="Name">
+                        </div>
+                        <div>
+                            <input name="employee_id" type="text" placeholder="Employee ID">
+                        </div>
+                        <div>
+                            <input name="email" type="email" placeholder="Email Address">
+                        </div>
+                        <div>
+                            <input name="password" type="password" placeholder="Password">
+                        </div>
+                        <div class="btn_for_form">
+                            <button class="Edit" type="submit">Edit</button>
+                        </div>
+                        <div class="btn_for_form">
+                            <button class="clear" type="reset">Clear</button>
+                            <button class="add" type="submit">Add</button>
+                        </div>
+                    </div>
+                </form>       
+            </div>
+            <div class="list_of_users">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>S.no</th>
+                            <th>Name</th>
+                            <th>EmployeeID</th>
+                            <th>Email</th>
+                            <th>Delete User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td></td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.employee_id }}</td>
+                            <td>{{ user.email }}</td>
+                            <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
         </div>
         <div class="footer">

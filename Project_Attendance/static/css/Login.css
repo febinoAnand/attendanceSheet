@@ -66,19 +66,20 @@
     
  }
 
- .email>input{
-    background-color:#E7E6E6;
-    width: 200px;
-    height: 30px;
-    margin: 10px;
-    margin-left: 25px;
-    border-radius: 10px;
-    padding: 15px;
-    border: none;
-    
- }
- .email>button{
-    background-color:#36B8B0;
+
+.inputs {
+   background-color:#E7E6E6;
+   width: 200px;
+   height: 30px;
+   margin: 10px;
+   margin-left: 25px;
+   border-radius: 10px;
+   padding: 15px;
+   border: none;
+}
+
+.btn {
+   background-color:#36B8B0;
     width: 200px;
     height: 30px;
     font-size: small;
@@ -90,4 +91,4 @@
     color: white;
     text-align: center;
     font-family: sans-serif;
- }
+}

@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/Login.css">
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
     <title>Login</title>
 </head>
 <body>
@@ -16,17 +17,54 @@
 
         </div>
     </div>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
     <div class="Login">
-         <div class="bar">
+        <div class="bar">
             <div class="email">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <button>LOGIN</button>
+                <form style="background-color: white;" action="{% url 'regular_login' %}" method="post">
+                    {% csrf_token %}
+                    <input class="inputs" name="email" type="email" placeholder="Email" style="background-color:#E7E6E6;
+                    width: 200px;
+                    height: 30px;
+                    margin: 10px;
+                    margin-left: 25px;
+                    border-radius: 10px;
+                    padding: 15px;
+                    border: none;">
+                    <input class="inputs" name="password" type="password" placeholder="Password" style="background-color:#E7E6E6;
+                    width: 200px;
+                    height: 30px;
+                    margin: 10px;
+                    margin-left: 25px;
+                    border-radius: 10px;
+                    padding: 15px;
+                    border: none;">
+                    <button class="btn" type="submit" style="background-color:#36B8B0;
+                    width: 200px;
+                    height: 30px;
+                    font-size: small;
+                    margin: 10px;
+                    margin-left: 25px;
+                    border-radius: 10px;
+                    
+                    border: none;
+                    color: white;
+                    text-align: center;
+                    font-family: sans-serif;">LOGIN</button>
+                </form>
             </div>
-            
-         </div>
-         
+        </div>
     </div>
+</body>
+</html>
+
     <div class="footer">
         <div>
         </div>

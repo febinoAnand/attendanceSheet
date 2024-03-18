@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UserDashboard</title>
-    <link rel="stylesheet" href="../static/css/userdashboard.css">
+    <link rel="stylesheet" href="{% static 'css/userdashboard.css' %}">
 </head>
 <body>
     <div class="background">
@@ -23,8 +24,8 @@
                         
                         <div class="dropdown-content">
                         <a href="#">History</a>
-                        <a href="#">Change Password</a>
-                        <a href="#">Logout</a>
+                        <a href="/changePassword">Change Password</a>
+                        <a href="/logout">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -32,7 +33,7 @@
         </div>
         <div class="button">
             <div class="btn">
-                <button>Check In</button>
+                <button id="myBtn" type="submit" onclick="check('{{ user_id }}')">Check In</button>
             </div>
             
         </div>
@@ -42,4 +43,5 @@
         </div>
     </div>
 </body>
+<script src="{% static 'js/Userdashboard.js' %}"></script>
 </html>

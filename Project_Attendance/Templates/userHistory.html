@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
+   <!--<link rel="stylesheet" href="../static/css/userHistory.css">--> 
+    
     <link rel="stylesheet" href="{% static 'css/userHistory.css' %}">
+    
 </head>
 <body>
     <div class="background">
@@ -23,16 +26,38 @@
                         <button class="dropbtn">Menu</button>
                         
                         <div class="dropdown-content">
-                        <a href="#">Dashboard</a>
-                        <a href="#">Change Password</a>
-                        <a href="#">Logout</a>
+                        <a href="/userdashboard/">Dashboard</a>
+                        <a href="/changePassword/">Change Password</a>
+                        <a href="/logout/">Logout</a>
                         </div>
                     </div>
                 </div>
 
         </div>
         <div class="content">
-           
+           <div class="box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Date</th>
+                        <th>CheckIn Time</th>
+                        <th>CheckOut Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in history %}
+                    <tr>
+                        <td></td>
+                        <td>{{entry.date}}</td>
+                        <td>{{entry.check_in_time}}</td>
+                        <td>{{entry.check_out_time}}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           </div>
             
         </div>
         <div class="footer">

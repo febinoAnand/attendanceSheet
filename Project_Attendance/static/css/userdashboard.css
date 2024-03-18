@@ -47,7 +47,7 @@
     align-items:center;
     height: 500px;
 }
-.btn>button{
+.green_btn{
     height: 40px;
     width: 200px;
     border-radius: 10px;
@@ -55,6 +55,15 @@
     border: none;
     color: white;
     cursor: pointer;
+}
+.red_btn{
+  height: 40px;
+  width: 200px;
+  border-radius: 10px;
+  background-color: #CE2121;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 .dropbtn {
     

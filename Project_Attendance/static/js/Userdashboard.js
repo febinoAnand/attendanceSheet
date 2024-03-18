@@ -1,13 +1,58 @@
+btnDisplay()
 
-
-
-function check(user_id) {
-    console.log(user_id);
-    let status = "check-out";   //check-outcheck-in
+function btnDisplay(){
+    let btn_div=document.getElementById("btn")
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            console.log(this.response)
+            try {
+                
+                let response;
+                response = JSON.parse(this.response);
+                console.log(response.status);
+                var dataHTMLformat=''
+                if (response.status === "check-in") {
+                    dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn" type="submit" onclick="check('+response.user_id+')">Check Out</button>'
+
+                } else if (response.status === "check-out") {
+                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+response.user_id+')">Check In</button>'
+                } else {
+                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+response.user_id+')">Check In</button>'
+                }
+                btn_div.innerHTML=dataHTMLformat;
+            } catch (error) {
+                console.log("Error parsing JSON:", error);
+            }
+        }
+    };
+    xhttp.open("POST", "/btnDisplay/", true);
+    xhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("send");
+}
+
+
+function check(user_id) {
+    var status = document.getElementById("myBtn").value
+    let btn_div=document.getElementById("btn")
+    console.log("btn value",status);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        var dataHTMLformat=''
+        if (this.readyState == 4 && this.status == 200) {
+            var msg=this.response;
+            if(msg=="Saved"){
+                dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn" type="submit" onclick="check('+user_id+')">Check Out</button>'
+            }
+            else if(msg="updated"){
+                dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+user_id+')">Check In</button>'
+            }
+            else{
+                alert("error")
+            }
+            btn_div.innerHTML=dataHTMLformat;
+            console.log(this.response);
         }
     };
     xhttp.open("POST", "/check/", true);

@@ -12,7 +12,7 @@ from .models import CheckInOut
 from datetime import date, time
 from pytz import timezone 
 from datetime import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 
 @csrf_protect
 def regular_login(request):
@@ -108,14 +108,33 @@ def user_management(request):
 
 
 def User_History(request):
-    return render(request,'userHistory.html')
+    user_id = request.session.get('user_id')
+    history=CheckInOut.objects.filter(user_id=user_id).order_by('-id')
+    print(history)
+    return render(request,'userHistory.html',{'history': history})
 
 def Admin_History(request):
     return render(request,'AdminHistory.html')
 
 
-
-
+def btn_Display(request):
+    user_id = request.session.get('user_id')
+    last_check_ins = CheckInOut.objects.filter(user_id=user_id).order_by('-id')
+    if last_check_ins.exists():
+        last_check_in = last_check_ins.first()
+        status = last_check_in.status
+        print(status)
+        data = {
+            "status": last_check_in.status,
+            "user_id": user_id
+        }
+        return JsonResponse(data)
+    else:
+        data={
+            "error":"No check-ins found for this user.",
+            "user_id": user_id
+        }
+        return JsonResponse(data)
 
 
 
@@ -135,6 +154,7 @@ def check_in_out(request):
         elif status == 'check-out':
             last_check_in = CheckInOut.objects.filter(user_id=user_id, status='check-in').order_by('-id').first()
             if last_check_in:
+                last_check_in.status='check-out'
                 last_check_in.check_out_time = current_time
                 last_check_in.save()
                 return HttpResponse('updated')

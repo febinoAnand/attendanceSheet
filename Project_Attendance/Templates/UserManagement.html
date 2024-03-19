@@ -64,13 +64,14 @@
                 </form>       
             </div>
             <div class="list_of_users">
-                <table border="1">
+                <table>
                     <thead>
                         <tr>
                             <th>S.no</th>
                             <th>Name</th>
                             <th>EmployeeID</th>
                             <th>Email</th>
+                            <th>Edit</th>
                             <th>Delete User</th>
                         </tr>
                     </thead>
@@ -79,9 +80,10 @@
                         <tr>
                             <td></td>
                             <td>{{ user.username }}</td>
-                            <td>{{ user.employee_id }}</td>
+                            <td>{{ user.userdetails.employee_id }}</td>
                             <td>{{ user.email }}</td>
-                            <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></td>
+                            <td><div class="del_btn"><button class="edit" type="submit"  id="{{user.id}}" onclick="edit(this.id)">Edit</button></div></td>
+                            <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></div></td>
                         </tr>
                         {% endfor %}
                     </tbody>

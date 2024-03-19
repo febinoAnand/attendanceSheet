@@ -17,5 +17,6 @@ urlpatterns = [
     path('adminHistory/',views.Admin_History,name='Admin_History'),
     path('check/',views.check_in_out,name='check_in_out'),
     path('btnDisplay/',views.btn_Display,name='btn_Display'),
+    path('deleteUser/',views.delete_user,name='delete_user'),
 
 ] 

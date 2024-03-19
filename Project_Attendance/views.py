@@ -13,6 +13,7 @@ from datetime import date, time
 from pytz import timezone 
 from datetime import datetime
 from django.http import HttpResponse,JsonResponse
+from .models import UserDetails
 
 @csrf_protect
 def regular_login(request):
@@ -51,9 +52,28 @@ def user_dashboard(request):
 
 def admin_dashboard(request):
     if request.session.get('user_type') == 'admin':
-        return render(request, 'AdminDashboard.html')
+        checkIn_count = CheckInOut.objects.filter(status='check-in').count()
+        checkIn_users = CheckInOut.objects.filter(status='check-in')
+        active_user_count = User.objects.filter(is_active=True, is_superuser=False).count()
+        active_user_count-=checkIn_count
+        employee_data = []
+        for user in checkIn_users:
+            user_data = {
+                'username': user.user.username,
+                'employee_id': user.user.userdetails.employee_id,
+                'check_in_time': user.check_in_time
+            }
+            employee_data.append(user_data)
+        context = {
+            'absent':active_user_count,
+            'checkIn_count': checkIn_count,
+            'employee_data': employee_data
+        }
+        return render(request, 'AdminDashboard.html', context)
     else:
-        return redirect(reverse('regular_login')) 
+        return redirect(reverse('regular_login'))
+
+ 
 
 
 def user_logout(request):
@@ -103,8 +123,9 @@ def user_management(request):
                 return redirect('/login/')
             except Exception as e:
                 messages.error(request, f"An error occurred: {str(e)}")
+    user_details = UserDetails.objects.filter(user__in=User.objects.all())
     users = User.objects.all()
-    return render(request, 'UserManagement.html',{'users': users})
+    return render(request, 'UserManagement.html', {'users': users, 'user_details': user_details})
 
 
 def User_History(request):
@@ -164,6 +185,31 @@ def check_in_out(request):
         return HttpResponse('Saved')
 
     return HttpResponse('Error: Request method should be POST')
+
+def delete_user(request):
+    if request.method == 'POST':
+        try:
+            user_id = request.POST.get('user_id')
+            user_to_delete = User.objects.get(id=user_id)
+            
+            try:
+                user_details = UserDetails.objects.get(user=user_to_delete)
+                user_details.delete()
+            except UserDetails.DoesNotExist:
+                pass
+            
+
+            CheckInOut.objects.filter(user_id=user_id).delete()
+            
+            user_to_delete.delete()
+            
+            return HttpResponse("User deleted successfully.")
+        except User.DoesNotExist:
+            return HttpResponse("User does not exist.")
+        except Exception as e:
+            return HttpResponse(f"An error occurred: {str(e)}")
+    else:
+        return redirect('/userManagement/')
 
 """from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password

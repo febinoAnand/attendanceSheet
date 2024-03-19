@@ -189,6 +189,9 @@
   margin-top: 8px;
   font-size: 17px;
 }
+table{
+  margin-top: 10px;
+}
 table, th, td {
   border-collapse:collapse;
   text-align:center;
@@ -221,6 +224,16 @@ tr {
   background-color:red;
   color: white;
   border: none;
+  cursor: pointer;
+}
+.edit{
+  width: 70px;
+  height: 30px;
+  border-radius: 10px;
+  background-color:#EFD808;
+  color: black;
+  border: none;
+  cursor: pointer;
 }
 body{
 counter-reset: Serial;

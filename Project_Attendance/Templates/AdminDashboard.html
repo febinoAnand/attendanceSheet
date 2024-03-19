@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/AdminDashboard.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/AdminDashboard.css' %}">-->
+    <link rel="stylesheet" href="../static/css/AdminDashboard.css">
 </head>
 <body>
     <div class="background">
@@ -32,7 +33,98 @@
 
         </div>
         <div class="content">
-           
+           <div class="content-header">
+            <div class="cur-dateAndTime">
+                <div class="date">
+                    <div>
+                        <h4>Date:</h4>
+                    </div>
+                    <div>
+                        <h4 id="date">04/02/2024</h4>
+                    </div>
+                </div>
+                <div class="date">
+                    <div>
+                        <h4>Day:</h4>
+                    </div>
+                    <div>
+                        <h4 id="day">wednesday</h4>
+                    </div>
+                </div>
+                <div class="date">
+                    <div>
+                        <h4>Time:</h4>
+                        
+                
+                    </div>
+                    <div class="elements">
+                        <div><span id="hr">11</span></div>
+                        <div><span>:</span></div>
+                        <div><span id="minutes">22</span></div>
+                        <div><span>:</span></div>
+                        <div><span id="seconds">33</span></div>
+                        <div><span id="ampm">AM</span></div>
+                      </div>
+                </div>
+            </div>
+            
+                <div class="search_bar">
+                    <input type="text" placeholder="Search..">
+                </div>
+            
+           </div>
+           <div class="box">
+            <div>
+                <div class="side-heading">
+                    <h6>Present:</h6>
+                </div>
+                <div class="side-heading-count">
+                    <h6>{{ checkIn_count }}</h6>
+                </div>
+                
+            </div>
+            <div>
+                <div class="side-heading">
+                    <h6>Absent:</h6>
+                </div>
+                <div class="side-heading-count">
+                    <h6>{{ absent }}</h6>
+                </div>
+            </div>
+            <div>
+                <div class="side-heading">
+                    <h6>Currently Worked:</h6>
+                </div>
+                <div class="side-heading-count">
+                    <h6>{{ checkIn_count }}</h6>
+                </div>
+            </div>
+           </div>
+           <div class="Today_present">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Employee ID</th>
+                        <th>Check-In Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_data in employee_data %}
+                    <tr>
+                        <td>.</td>
+                        <td>{{ user_data.username }}</td>
+                        <td>{{ user_data.employee_id }}</td>
+                        <td>{{ user_data.check_in_time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            
+            
+           </div>
             
         </div>
         <div class="footer">
@@ -41,4 +133,5 @@
         </div>
     </div>
 </body>
+<script src="{% static 'js/adminDashboard.js' %}"></script>
 </html>

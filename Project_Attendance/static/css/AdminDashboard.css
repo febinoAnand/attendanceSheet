@@ -6,7 +6,7 @@
 }
 .background{
     background-color: #F8EFEF;
-    height: 650px;
+    height: 620px;
 }
 .header{
     width: 100%;
@@ -98,4 +98,151 @@
   .dropdown:hover .dropbtn {
     color:yellow;
   }
+  .content-header{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .cur-dateAndTime{
+    height: 40px;
+    width:79%;
+    margin: 20px;
+    margin-left: 120px;
+  }
+  .cur-dateAndTime{
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }
+  .search_bar{
+    margin: 20px;
+    
+    margin-left:100px;
+    height: 50px;
+    
+    
+  }
+  .search_bar >input[type=text] {
+    height: 30px;
+    width: 300px;
+    float: center;
+    padding: 10px;
+    border-radius: 0px;
+    background-color: white;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+  }
+  .box{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .box >div{
+    height: 150px;
+    width: 200px;
+    margin: 20px;
+    margin-left: 120px;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }
+  .Today_present{
+    height: 230px;
+    width: 1110px;
+    margin-top: 20px;
+    margin-left: 120px;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    
+    overflow: scroll;
+    overflow-x: hidden;
+  }
   
+  table, th, td {
+    border-collapse:collapse;
+    text-align:center;
+    table-layout: fixed ;
+    width:90%;
+    height: auto;
+    margin-left: 40px;
+    margin-top: 10px;
+   
+  }
+  th{
+    
+    padding: 10px;
+    border-bottom: 1px solid black;
+  }
+  tr {
+    border-bottom: 1px solid #ddd;
+   
+  }
+  td{
+    height: 50px;
+  }
+  body{
+  counter-reset: Serial;
+  }
+  
+  tr td:first-child::before   {
+    counter-increment: Serial;  
+    content: counter(Serial);  
+  }
+  .side-heading{
+    
+    padding: 3px;
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+  .side-heading>h6{
+    font-size: 1em;
+  }
+  .side-heading-count{
+    
+    padding: 3px;
+    margin: 1px;
+  }
+  .side-heading-count>h6{
+    text-align: center;
+    font-size:4em;
+  }
+  .cur-dateAndTime>div{
+    height: 40px;
+    width: 200px;
+    
+    margin-left: 30px;
+  }
+  .date{
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+  }
+ .date>div{
+  margin-left: 5px;
+ }
+  h4{
+    margin-top: 10px;
+    font-family:sans-serif;
+    font-size: 15px;
+  }
+  .elements{
+    height: 20px;
+    width: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    margin-top: 9px;
+    
+}
+.elements >div{
+    
+    text-align: center;
+    
+  
+}
+div>span{
+  font-weight: bold;
+  font-family:sans-serif;
+  font-size: 15px;
+}

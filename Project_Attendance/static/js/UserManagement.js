@@ -12,19 +12,36 @@ function del(user_id){
     xhttp.send("user_id="+user_id);
 }
 function getCookie(name) {
-    // Split cookies by semicolon
     var cookieArray = document.cookie.split(';');
     
-    // Loop through each cookie
     for (var i = 0; i < cookieArray.length; i++) {
         var cookie = cookieArray[i].trim();
         
-        // Check if cookie starts with the given name
         if (cookie.startsWith(name + '=')) {
-            // Extract and return the value of the cookie
             return cookie.substring(name.length + 1);
         }
     }
-    // Return null if cookie not found
     return null;
 }
+function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td");
+      for (var j = 0; j < td.length; j++) {
+        var cell = td[j];
+        if (cell) {
+          txtValue = cell.textContent || cell.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+            break; 
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  }

@@ -14,6 +14,7 @@ from pytz import timezone
 from datetime import datetime
 from django.http import HttpResponse,JsonResponse
 from .models import UserDetails
+from django.core import serializers
 
 @csrf_protect
 def regular_login(request):
@@ -135,8 +136,12 @@ def User_History(request):
     return render(request,'userHistory.html',{'history': history})
 
 def Admin_History(request):
-    return render(request,'AdminHistory.html')
-
+     checkinout_data = CheckInOut.objects.all()
+     context = {
+                'checkinout_data': checkinout_data,
+                
+            }
+     return render(request,'AdminHistory.html',context)
 
 def btn_Display(request):
     user_id = request.session.get('user_id')
@@ -211,16 +216,30 @@ def delete_user(request):
     else:
         return redirect('/userManagement/')
 
-"""from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import check_password
+
+def Admin_History_Table(request):
+    if request.method == 'POST':
+        from_date = request.POST.get('From_date')
+        to_date = request.POST.get('To_date')
+        print(from_date, to_date)
+        checkinout_data_queryset = CheckInOut.objects.filter(date__range=(from_date, to_date)).select_related('user', 'user__userdetails')
+        serialized_data = []
+        for obj in checkinout_data_queryset:
+            data = {
+                'id': obj.id,
+                'date': obj.date.strftime("%B %d, %Y"),
+                'user': obj.user.username,
+                'employee_id': obj.user.userdetails.employee_id,
+                'check_in_time':obj.check_in_time.strftime("%I:%M %p"),
+                'check_out_time':obj.check_out_time
+            }
+            serialized_data.append(data)
+        response_data = {
+            'checkinout_data': serialized_data,
+        }
+        return JsonResponse(response_data, safe=False)
+    else:
+        return HttpResponse("Only POST requests are allowed for this endpoint.")
 
 
-plain_text_password = "dd"
-User = get_user_model()
-user = User.objects.get(email='dhanush@gmail.com')
-hashed_password = user.password
-print("Hashed password:", hashed_password)
-if check_password(plain_text_password, hashed_password):
-    print("Password matched!")
-else:
-    print("Password did not match.")"""
+

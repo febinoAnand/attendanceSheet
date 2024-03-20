@@ -1,3 +1,29 @@
-body{
-    background-color: red;
-}
+from django.http import HttpResponse
+from .models import User, CheckInOut
+
+def Admin_History_Table(request):
+    if request.method == 'POST':
+        # Retrieve data from POST request
+        name = request.POST.get('Name')
+        employee_id = request.POST.get('Employee_id')
+        from_date = request.POST.get('From_date')
+        to_date = request.POST.get('To_date')
+        
+        # Printing the retrieved data for debugging purposes
+        print(name, employee_id, from_date, to_date)
+        
+        # Now you would typically query your database to get the relevant information
+        # For example, let's assume you have models User and CheckInOut
+        
+        # Querying user table to find the user
+        user = User.objects.get(name=name, employee_id=employee_id)
+        
+        # Now, based on user, retrieve check-in/out data
+        checkinout_data = CheckInOut.objects.filter(user=user, checkin_date__range=(from_date, to_date))
+        
+        # Now you have the relevant check-in/out data for the user within the specified date range
+        # You can do further processing here
+        
+        return HttpResponse("success")
+    else:
+        return HttpResponse("Only POST requests are allowed for this endpoint.")

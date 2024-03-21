@@ -19,4 +19,7 @@ urlpatterns = [
     path('btnDisplay',views.btn_Display,name='btn_Display'),
     path('deleteUser',views.delete_user,name='delete_user'),
     path('AdminHistoryTable',views.Admin_History_Table,name='Admin_History_Table'),
+    path('editUser',views.edit_user,name='edit_user'),
+    path('saveEditUser',views.saveEdit,name='saveEdit'),
+    path('updateIsActive', views.update_is_active, name='update_is_active'),
 ] 

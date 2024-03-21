@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+/* from django.http import HttpResponse
 from .models import User, CheckInOut
 
 def Admin_History_Table(request):
@@ -27,3 +27,74 @@ def Admin_History_Table(request):
         return HttpResponse("success")
     else:
         return HttpResponse("Only POST requests are allowed for this endpoint.")
+        def regular_login(request):
+        if request.method == "POST":
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            currentUser = User.objects.filter(email=email).first()
+            if currentUser is not None:
+                user = authenticate(username=currentUser.username, password=password)
+                
+                if user is not None:
+                    request.session['user_id'] = user.id
+                    request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
+                    if user.is_superuser:
+                        return redirect('admin_dashboard')
+                    else:
+                        return redirect('user_dashboard')
+                else:
+                    messages.error(request, "Invalid email or password.")
+                    return redirect(reverse('regular_login'))
+            else:
+                messages.error(request, "User does not exist.")
+                return redirect(reverse('regular_login'))
+        return render(request, 'Login.html') */
+        function activeId(userId) {
+            var button = document.getElementById(userId); // Get the button element
+            var currentIsActive = button.innerText.trim(); // Get the current text of the button
+            var newIsActive = currentIsActive === 'True' ? 'False' : 'True'; // Toggle the state
+            
+            // Send an AJAX request to update the user's is_active state in the database
+            // Example AJAX request using fetch API
+            fetch('/updateIsActive', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Assuming you have a function to get CSRF token
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    isActive: newIsActive
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the button text based on the response from the server
+                button.innerText = data.is_active;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+        
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        

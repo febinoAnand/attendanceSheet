@@ -18,26 +18,27 @@ from django.core import serializers
 
 @csrf_protect
 def regular_login(request):
+    user = None
     if request.method == "POST":
-        email = request.POST.get("email")
+        email_or_username = request.POST.get("email_or_username")
         password = request.POST.get("password")
-        currentUser = User.objects.filter(email=email).first()
+        currentUser = User.objects.filter(email=email_or_username).first()
         if currentUser is not None:
-            user = authenticate(username=currentUser.username, password=password)
-            
-            if user is not None:
-                request.session['user_id'] = user.id
-                request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
-                if user.is_superuser:
-                    return redirect('admin_dashboard')
-                else:
-                    return redirect('user_dashboard')
+                user = authenticate(username=currentUser.username, password=password)
+                print("user",user)
+        if user is None:
+            user = authenticate(username=email_or_username, password=password)
+        if user is not None:
+            request.session['user_id'] = user.id
+            request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
+            if user.is_superuser:
+                return redirect('admin_dashboard')
             else:
-                messages.error(request, "Invalid email or password.")
-                return redirect(reverse('regular_login'))
+                return redirect('user_dashboard')
         else:
-            messages.error(request, "User does not exist.")
+            messages.error(request, "Invalid email/username or password.")
             return redirect(reverse('regular_login'))
+            
     return render(request, 'Login.html')
 
 
@@ -83,65 +84,97 @@ def user_logout(request):
     return redirect(reverse('regular_login'))
 
 
+from django.contrib.auth import authenticate
+
 def change_password(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        new_password = request.POST.get('new_password')
-        password_confirmation = request.POST.get('password_confirmation')
+    if request.session.get('user_type') == 'regular': 
+            if request.method == 'POST':
+                email = request.POST.get('email')
+                old_password = request.POST.get('Old_Password')
+                new_password = request.POST.get('new_password')
+                password_confirmation = request.POST.get('password_confirmation')
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
+                    messages.error(request, 'No user found with this email address.')
+                    return redirect('change_password')
+                if not user.check_password(old_password):
+                    messages.error(request, 'Old password is incorrect.')
+                    return redirect('change_password')
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, 'No user found with this email address.')
-            return redirect('change_password')
+                if new_password == password_confirmation:
+                    user.set_password(new_password)
+                    user.save()
+                    messages.success(request, 'Your password was successfully updated!')
+                    return redirect('change_password')
+                else:
+                    messages.error(request, 'Password confirmation does not match.')
+                    return redirect('change_password')
 
-        if new_password == password_confirmation:
-            user.set_password(new_password)
-            user.save()
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
-        else:
-            messages.error(request, 'Password confirmation does not match.')
-            return redirect('change_password')
-
-    return render(request, 'userChangePassword.html')
+            return render(request, 'userChangePassword.html')
+    else:
+        return redirect(reverse('regular_login'))
 
 
 
 def user_management(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        employee_id = request.POST.get("employee_id")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        if not (username and employee_id and email and password):
-            messages.error(request, "All fields are required.")
-        else:
-            try:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user_details = UserDetails.objects.create(user=user, employee_id=employee_id)
-                messages.success(request, "Your account was successfully created.")
-                return redirect('/login/')
-            except Exception as e:
-                messages.error(request, f"An error occurred: {str(e)}")
-    user_details = UserDetails.objects.filter(user__in=User.objects.all())
-    users = User.objects.all()
-    return render(request, 'UserManagement.html', {'users': users, 'user_details': user_details})
+    if request.session.get('user_type') == 'admin':
+            if request.method == "POST":
+                username = request.POST.get("username")
+                employee_id = request.POST.get("employee_id")
+                email = request.POST.get("email")
+                password = request.POST.get("password")
+                if not (username and employee_id and email and password):
+                    return ("All fields are required.")
+                else:
+                    try:
+                        user = User.objects.create_user(username=username, email=email, password=password)
+                        user_details = UserDetails.objects.create(user=user, employee_id=employee_id)
+                        return HttpResponse("Your account was successfully created.")
+                    except Exception as e:
+                        return HttpResponse(f"An error occurred: {str(e)}")
+            user_details = UserDetails.objects.filter(user__in=User.objects.all())
+            users =User.objects.filter(is_superuser=False)
+            return render(request, 'UserManagement.html', {'users': users, 'user_details': user_details})
+    
+    else:
+        return redirect(reverse('regular_login'))
 
+def update_is_active(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('userId')
+        new_is_active = request.POST.get('isActive')
+        try:
+            user = User.objects.get(id=user_id)
+            user.is_active = new_is_active
+            user.save()
+            return JsonResponse({'is_active': user.is_active})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 def User_History(request):
-    user_id = request.session.get('user_id')
-    history=CheckInOut.objects.filter(user_id=user_id).order_by('-id')
-    print(history)
-    return render(request,'userHistory.html',{'history': history})
+    if request.session.get('user_type') == 'regular':
+        user_id = request.session.get('user_id')
+        history=CheckInOut.objects.filter(user_id=user_id).order_by('-id')
+        print(history)
+        return render(request,'userHistory.html',{'history': history})
+    else:
+        return redirect(reverse('regular_login'))
+    
 
 def Admin_History(request):
-     checkinout_data = CheckInOut.objects.all()
-     context = {
-                'checkinout_data': checkinout_data,
-                
-            }
-     return render(request,'AdminHistory.html',context)
+     if request.session.get('user_type') == 'admin':
+        checkinout_data = CheckInOut.objects.all()
+        context = {
+                    'checkinout_data': checkinout_data,
+                    
+                }
+        return render(request,'AdminHistory.html',context)
+     
+     else:
+        return redirect(reverse('regular_login'))
 
 def btn_Display(request):
     user_id = request.session.get('user_id')
@@ -214,8 +247,42 @@ def delete_user(request):
         except Exception as e:
             return HttpResponse(f"An error occurred: {str(e)}")
     else:
-        return redirect('/userManagement/')
+        return redirect('/userManagement')
+    
+user_id=None
 
+def edit_user(request):
+    if request.method == 'POST':
+        try:
+           global user_id
+           user_id = request.POST.get('user_id')
+           user_to_edit = User.objects.get(id=user_id)
+           user_details = user_to_edit.userdetails
+           employee_id = user_details.employee_id if user_details else None
+           user_data = [{'id': user_to_edit.id, 'username': user_to_edit.username, 'email': user_to_edit.email ,'employee_id':employee_id}]
+           return JsonResponse(user_data, safe=False)
+        except User.DoesNotExist:
+            return HttpResponse("User does not exist.")
+        
+def saveEdit(request):
+    global user_id
+    if request.method == 'POST':
+        try:
+            username=request.POST.get('username')
+            employee_id=request.POST.get('employee_id')
+            email=request.POST.get('email')
+            password=request.POST.get('password')
+            user = User.objects.get(id=user_id)
+            user.username = username
+            user.employee_id = employee_id
+            user.email = email
+            user.set_password(password)
+            user.save()
+            return HttpResponse("success")
+        except:
+            return HttpResponse("nothing")
+
+    return HttpResponse(user_id)
 
 def Admin_History_Table(request):
     if request.method == 'POST':

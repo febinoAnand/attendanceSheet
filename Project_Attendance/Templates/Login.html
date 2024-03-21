@@ -30,7 +30,7 @@
             <div class="email">
                 <form style="background-color: white;" action="{% url 'regular_login' %}" method="post">
                     {% csrf_token %}
-                    <input class="inputs" name="email" type="email" placeholder="Email" style="background-color:#E7E6E6;
+                    <input class="inputs" name="email_or_username" type="text" placeholder="Email or username " style="background-color:#E7E6E6;
                     width: 200px;
                     height: 30px;
                     margin: 10px;

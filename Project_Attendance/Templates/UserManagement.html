@@ -38,8 +38,8 @@
         </div>
         <div class="content">
             <div class="signup">
-                <form action="/userManagement/" method="post">
-                    {% csrf_token %}
+                <form id="My_form" method="POST">
+                
                     <div class="inner_content">
                         <div>
                             <input name="username" type="text" placeholder="Name">
@@ -54,11 +54,11 @@
                             <input name="password" type="password" placeholder="Password">
                         </div>
                         <div class="btn_for_form">
-                            <button class="Edit" type="submit">Edit</button>
+                            <button name="edit-btn" class="Edit" onclick="saveEdit()">Edit</button>
                         </div>
                         <div class="btn_for_form">
                             <button class="clear" type="reset">Clear</button>
-                            <button class="add" type="submit">Add</button>
+                            <button  name="add" class="add" type="submit" onclick="addUser()">Add</button>
                         </div>
                     </div>
                 </form>       
@@ -85,7 +85,7 @@
                             <td>{{ user.email }}</td>
                             <td><div class="del_btn"><button class="edit" type="submit"  id="{{user.id}}" onclick="edit(this.id)">Edit</button></div></td>
                             <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></div></td>
-                            <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Inactive</button></div></td>
+                            <td><div class="del_btn"> <button class="{% if user.is_active %}isActive_true{% else %}isActive_false{% endif %}"  type="submit"  id="activeBtn{{ user.id }}" onclick="activeId('{{ user.id }}', 'activeBtn{{ user.id }}', '{{ user.is_active }}')">{% if user.is_active %}Active{% else %}Inactive{% endif %}</button></div></td>
                         </tr>
                         {% endfor %}
                     </tbody>

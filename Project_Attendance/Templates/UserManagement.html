@@ -7,6 +7,9 @@
     <title>User Management</title>
     <!-- <link rel="stylesheet" href="{ static ../static/css/UserManagement.css }""{% static 'myfirst.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/UserManagement.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
 </head>
 <body>
@@ -33,8 +36,11 @@
                 </div>
 
         </div>
+        <div class="row_for_alert" id="row">
+               
+        </div>
         <div class="search_bar">
-            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
+            <input class="Inputs" type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
         </div>
         <div class="content">
             <div class="signup">
@@ -42,16 +48,16 @@
                 
                     <div class="inner_content">
                         <div>
-                            <input name="username" type="text" placeholder="Name">
+                            <input class="Inputs" name="username" type="text" placeholder="Name">
                         </div>
                         <div>
-                            <input name="employee_id" type="text" placeholder="Employee ID">
+                            <input class="Inputs" name="employee_id" type="text" placeholder="Employee ID">
                         </div>
                         <div>
-                            <input name="email" type="email" placeholder="Email Address">
+                            <input class="Inputs" name="email" type="email" placeholder="Email Address">
                         </div>
                         <div>
-                            <input name="password" type="password" placeholder="Password">
+                            <input class="Inputs" name="password" type="password" placeholder="Password">
                         </div>
                         <div class="btn_for_form">
                             <button name="edit-btn" class="Edit" onclick="saveEdit()">Edit</button>

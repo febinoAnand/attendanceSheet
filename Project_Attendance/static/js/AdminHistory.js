@@ -1,32 +1,53 @@
+
 document.getElementById("My_form").addEventListener("submit", (e) => {
     e.preventDefault();
 });
-console.log("testing..");
-
 
 function form_input() {
     let inputs = document.getElementById("My_form");
     let table_tr = document.getElementById("tbody");
     let from_date = inputs.elements[0].value;
     let to_date = inputs.elements[1].value;
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.response);
-            let responseData = JSON.parse(this.response);
-            let data = responseData.checkinout_data;
-            var dataHTMLformat = '';
-            data.forEach(function(item) {
-                let checkOutTime = item.check_out_time ? convertTimeFormat(item.check_out_time) : 'Not Checkout';
-                dataHTMLformat += '<tr><td>.</td><td>' + item.user + '</td><td>' + item.employee_id + '</td><td>' + item.date + '</td><td>' + item.check_in_time + '</td><td>' + checkOutTime + '</td></tr>';
-            });
-            table_tr.innerHTML = dataHTMLformat;
-        }
-    };
-    xhttp.open("POST", "/AdminHistoryTable", true);
-    xhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("From_date=" + from_date + "&To_date=" + to_date);
+    console.log(from_date)
+    if (!from_date || !to_date) {
+        
+            console.log("error")
+            const newDiv = document.createElement("div");
+                newDiv.className="alert alert-danger";
+                newDiv.id="div"
+                newDiv.style.textAlign="center";
+                newDiv.role="alert";
+                newDiv.textContent="Please enter both From and To dates!.";
+                const parent = document.getElementById("row");
+                console.log("row"+parent);
+                parent.appendChild(newDiv);
+                setTimeout(() => {
+                    $("#div").delay(5000).fadeOut(500);
+            }, 1000);
+          }
+        
+      else{
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.response);
+                let responseData = JSON.parse(this.response);
+                let data = responseData.checkinout_data;
+                var dataHTMLformat = '';
+                data.forEach(function(item) {
+                    let checkOutTime = item.check_out_time ? convertTimeFormat(item.check_out_time) : 'Not Checkout';
+                    dataHTMLformat += '<tr><td>.</td><td>' + item.user + '</td><td>' + item.employee_id + '</td><td>' + item.date + '</td><td>' + item.check_in_time + '</td><td>' + checkOutTime + '</td></tr>';
+                });
+                table_tr.innerHTML = dataHTMLformat;
+            }
+        };
+        xhttp.open("POST", "/AdminHistoryTable", true);
+        xhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("From_date=" + from_date + "&To_date=" + to_date);
+      }
+        
+    
 }
 function convertTimeFormat(timeString) {
     let date = new Date('2000-01-01T' + timeString);

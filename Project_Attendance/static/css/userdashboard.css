@@ -1,9 +1,11 @@
+
 *{
     margin:0;
     padding: 0;
     box-sizing: border-box;
     
 }
+
 .background{
     background-color: #F8EFEF;
     height: 650px;
@@ -108,4 +110,52 @@
   .dropdown:hover .dropbtn {
     color:yellow;
   }
+  .cur-dateAndTime{
+    height: 100px;
+    width: 600px;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    margin:auto;
+    margin-top: 30px;
+  }
+  .cur-dateAndTime>div{
+    
+    margin-left: 30px;
+  }
+  .date{
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+  }
+ .date>div{
+  margin-left: 5px;
+ }
+ h4{
+  margin-top: 10px;
+  font-family:sans-serif;
+  font-size: 15px;
+}
+.elements{
+  height: 20px;
+  width: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  margin-top: 9px;
   
+}
+.elements >div{
+  text-align: center;
+}
+div>span{
+font-weight: bold;
+font-family:sans-serif;
+font-size: 15px;
+}
+.row_for_alert{
+  height: 40px;
+  width: 100%;
+
+}

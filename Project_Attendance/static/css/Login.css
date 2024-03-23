@@ -2,7 +2,6 @@
     margin:0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #F8EFEF;
 }
 
 .header{
@@ -10,7 +9,7 @@
     
     grid-template-columns: 1fr;
 }
-.header >div{
+.header-box{
    display: grid;
    height: 50px;
    background-color: #36B8B0;
@@ -21,7 +20,7 @@
 
 .heading >h2{
     color: white;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    
     font-size: large;
     background-color: #36B8B0;
     
@@ -42,53 +41,86 @@
     grid-template-columns: 1fr;
     height: 500px;
     align-items: center;
-    
+    background-color: #F8EFEF;
  }
- .Login > div{
+ .email{
     height: 270px;
     width: 250px;
     background-color: white;
     border-radius: 10px;
     margin: auto;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, .10);
- }
+}
  ::placeholder {
     color: black;
     font-family:sans-serif;
     font-size: small;
   }
- .email{
+
+.email_form{
     display: grid;
     grid-template-rows:1fr 1fr 1fr ;
     background-color: white;
     margin-top: 70px;
     height: 150px;
-    
- }
+}
 
-
-.inputs {
+.email_form>input {
    background-color:#E7E6E6;
    width: 200px;
    height: 30px;
-   margin: 10px;
    margin-left: 25px;
    border-radius: 10px;
    padding: 15px;
    border: none;
 }
 
-.btn {
-   background-color:#36B8B0;
+.email_form >button{
+    background-color:#36B8B0;
     width: 200px;
     height: 30px;
-    font-size: small;
-    margin: 10px;
+   
     margin-left: 25px;
     border-radius: 10px;
-    
     border: none;
     color: white;
     text-align: center;
-    font-family: sans-serif;
 }
+button:hover{
+    background-color: #248B82;
+    color: white;
+}
+button:active{
+    background-color:#369FB0;
+    border: none;
+}
+@media all and (min-height: 600px) {
+    .Login{
+        height: 600px;
+     }
+  }
+  @media all and (min-height: 700px) {
+    .Login{
+        height: 700px;
+     }
+  }
+  @media all and (min-height: 800px) {
+    .Login{
+        height: 800px;
+     }
+  }
+  @media all and (min-height: 900px) {
+    .Login{
+        height: 1000px;
+     }
+    }
+  @media all and (min-height: 1000px) {
+    .Login{
+        height: 1200px;
+     }
+  }
+  @media all and (min-height: 1300px) {
+    .Login{
+        height: 1300px;
+     }
+  }

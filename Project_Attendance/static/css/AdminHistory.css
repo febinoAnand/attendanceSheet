@@ -211,3 +211,8 @@
   font-size: 17px;
   border: none;
 }
+.row_for_alert{
+  height: 40px;
+  width: 100%;
+
+}

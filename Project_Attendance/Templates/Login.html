@@ -4,71 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
     <title>Login</title>
 </head>
 <body>
 <div class="background">
     <div class="header">
-        <div>
+        <div class="header-box">
             <div class="heading">
-                <h2>Login</h2>
+                <h2 class="roboto-bold">Login</h2>
             </div>
-
+            
+        </div>
+        <div id="popupMsg" class="alert alert-danger" style="text-align: center;margin-bottom: 0px;">
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
     <div class="Login">
-        <div class="bar">
             <div class="email">
-                <form style="background-color: white;" action="{% url 'regular_login' %}" method="post">
+                <form class="email_form" action="{% url 'regular_login' %}" method="post">
                     {% csrf_token %}
-                    <input class="inputs" name="email_or_username" type="text" placeholder="Email or username " style="background-color:#E7E6E6;
-                    width: 200px;
-                    height: 30px;
-                    margin: 10px;
-                    margin-left: 25px;
-                    border-radius: 10px;
-                    padding: 15px;
-                    border: none;">
-                    <input class="inputs" name="password" type="password" placeholder="Password" style="background-color:#E7E6E6;
-                    width: 200px;
-                    height: 30px;
-                    margin: 10px;
-                    margin-left: 25px;
-                    border-radius: 10px;
-                    padding: 15px;
-                    border: none;">
-                    <button class="btn" type="submit" style="background-color:#36B8B0;
-                    width: 200px;
-                    height: 30px;
-                    font-size: small;
-                    margin: 10px;
-                    margin-left: 25px;
-                    border-radius: 10px;
+                    <input class="roboto-medium" name="email_or_username" type="text" placeholder="Email or username ">
+                  
+                    <input class="roboto-medium" name="password" type="password" placeholder="Password">
                     
-                    border: none;
-                    color: white;
-                    text-align: center;
-                    font-family: sans-serif;">LOGIN</button>
+                    <button class="roboto-medium" type="submit">LOGIN</button>
                 </form>
             </div>
-        </div>
     </div>
-</body>
-</html>
-
     <div class="footer">
         <div>
         </div>
     </div>
 </div>
 </body>
+</html>
+
+    
+<script>
+   var popup = document.getElementById("popupMsg");
+
+function displayPopup() {
+    setTimeout(function() {
+        popup.style.display = "none";
+    }, 3000);
+}
+var messages = document.querySelectorAll('.message');
+if (messages.length > 0) {
+    displayPopup();
+}
+else {
+    popup.style.display = "none";  
+}
+
+</script>
+</body>
+
+
 </html>

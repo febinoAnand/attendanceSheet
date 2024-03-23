@@ -22,4 +22,6 @@ urlpatterns = [
     path('editUser',views.edit_user,name='edit_user'),
     path('saveEditUser',views.saveEdit,name='saveEdit'),
     path('updateIsActive', views.update_is_active, name='update_is_active'),
+    
+    path('checkIfExists',views.check_IfExists, name='check_IfExists'),
 ] 

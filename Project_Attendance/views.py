@@ -15,6 +15,8 @@ from datetime import datetime
 from django.http import HttpResponse,JsonResponse
 from .models import UserDetails
 from django.core import serializers
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 @csrf_protect
 def regular_login(request):
@@ -22,6 +24,15 @@ def regular_login(request):
     if request.method == "POST":
         email_or_username = request.POST.get("email_or_username")
         password = request.POST.get("password")
+        if not email_or_username:
+            messages.error(request, "Please enter your email or username.")
+            return redirect(reverse('regular_login'))
+
+        
+        if not password:
+            messages.error(request, "Please enter your password.")
+            return redirect(reverse('regular_login'))
+
         currentUser = User.objects.filter(email=email_or_username).first()
         if currentUser is not None:
                 user = authenticate(username=currentUser.username, password=password)
@@ -38,7 +49,8 @@ def regular_login(request):
         else:
             messages.error(request, "Invalid email/username or password.")
             return redirect(reverse('regular_login'))
-            
+    
+    
     return render(request, 'Login.html')
 
 
@@ -93,6 +105,9 @@ def change_password(request):
                 old_password = request.POST.get('Old_Password')
                 new_password = request.POST.get('new_password')
                 password_confirmation = request.POST.get('password_confirmation')
+                if not (email and old_password and new_password and password_confirmation):
+                    messages.error(request, "All fields are required.")
+                    return redirect('change_password')
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
@@ -102,14 +117,20 @@ def change_password(request):
                     messages.error(request, 'Old password is incorrect.')
                     return redirect('change_password')
 
-                if new_password == password_confirmation:
-                    user.set_password(new_password)
-                    user.save()
-                    messages.success(request, 'Your password was successfully updated!')
-                    return redirect('change_password')
-                else:
+                if new_password != password_confirmation:
                     messages.error(request, 'Password confirmation does not match.')
                     return redirect('change_password')
+
+                try:
+                    validate_password(new_password, user=user)
+                except ValidationError as e:
+                    messages.error(request, '\n'.join(e))
+                    return redirect('change_password')
+
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('change_password')
 
             return render(request, 'userChangePassword.html')
     else:
@@ -309,4 +330,27 @@ def Admin_History_Table(request):
         return HttpResponse("Only POST requests are allowed for this endpoint.")
 
 
+
+
+def check_IfExists(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+
+        username_exists = User.objects.filter(username=username).exists()
+        email_exists = User.objects.filter(email=email).exists()
+
+        response_data = []
+
+        if username_exists:
+            response_data.append({'field': 'username', 'message': 'Username already exists.'})
+        else:
+            response_data.append({'field': 'username', 'message': 'Username does not exist.'})
+
+        if email_exists:
+            response_data.append({'field': 'email', 'message': 'Email already exists.'})
+        else:
+            response_data.append({'field': 'email', 'message': 'Email does not exist.'})
+
+        return JsonResponse(response_data, safe=False)
 

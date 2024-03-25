@@ -28,7 +28,7 @@ function displayTime(){
         case 6:
             day="Saturday"
             break;
-        case 7:
+        case 0:
             day="Sunday"
             break;
     }

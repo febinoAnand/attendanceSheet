@@ -13,12 +13,12 @@ function btnDisplay(){
                 console.log(response.status);
                 var dataHTMLformat=''
                 if (response.status === "check-in") {
-                    dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn" type="submit" onclick="check('+response.user_id+')">Check Out</button>'
+                    dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn roboto-medium" type="submit" onclick="check('+response.user_id+')">Check Out</button>'
 
                 } else if (response.status === "check-out") {
-                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+response.user_id+')">Check In</button>'
+                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn roboto-medium" type="submit" onclick="check('+response.user_id+')">Check In</button>'
                 } else {
-                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+response.user_id+')">Check In</button>'
+                    dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn roboto-medium" type="submit" onclick="check('+response.user_id+')">Check In</button>'
                 }
                 btn_div.innerHTML=dataHTMLformat;
             } catch (error) {
@@ -44,7 +44,7 @@ function check(user_id) {
             var msg=this.response;
             if(msg=="Saved"){
                 console.log(msg)
-                dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn" type="submit" onclick="check('+user_id+')">Check Out</button>'
+                dataHTMLformat+='<button id="myBtn" value="check-out" class="red_btn roboto-medium" type="submit" onclick="check('+user_id+')">Check Out</button>'
                 msg="You are checking in at "
                 msg+=getCurrentDateTimeString()
                 msg+="."
@@ -52,7 +52,7 @@ function check(user_id) {
             }
             else if(msg="updated"){
                 console.log(msg)
-                dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn" type="submit" onclick="check('+user_id+')">Check In</button>'
+                dataHTMLformat+='<button id="myBtn" value="check-in" class="green_btn roboto-medium" type="submit" onclick="check('+user_id+')">Check In</button>'
                 msg="You are checking out at "
                 msg+=getCurrentDateTimeString()
                 msg+="."
@@ -86,7 +86,7 @@ function getCookie(name) {
 function alert_error(msg){
     console.log("error")
     const newDiv = document.createElement("div");
-        newDiv.className="alert alert-danger";
+        newDiv.className="alert alert-danger roboto-medium";
         newDiv.id="div"
         newDiv.style.textAlign="center";
         newDiv.role="alert";
@@ -102,7 +102,7 @@ function alert_error(msg){
   function alert_info(msg){
     console.log("success")
     const newDiv = document.createElement("div");
-    newDiv.className="alert alert-info";
+    newDiv.className="alert alert-warning roboto-medium";
     newDiv.id="div"
     newDiv.style.textAlign="center";
     newDiv.role="alert";
@@ -120,7 +120,7 @@ function alert_error(msg){
       console.log("success")
       const newDiv = document.createElement("div");
       const alertId = "div" + alertCount; 
-      newDiv.className = "alert alert-success";
+      newDiv.className = "alert alert-success roboto-medium";
       newDiv.id = alertId;
       newDiv.style.textAlign = "center";
       newDiv.role = "alert";

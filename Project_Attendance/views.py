@@ -41,6 +41,7 @@ def regular_login(request):
             user = authenticate(username=email_or_username, password=password)
         if user is not None:
             request.session['user_id'] = user.id
+            request.session['username']=user.username
             request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
             if user.is_superuser:
                 return redirect('admin_dashboard')
@@ -56,9 +57,12 @@ def regular_login(request):
 
 def user_dashboard(request):
     user_id = request.session.get('user_id')
+    username=request.session.get('username')
+    name=username.capitalize()
     print(user_id)
+    print(username)
     if request.session.get('user_type') == 'regular':
-        context = {'user_id': user_id}
+        context = {'user_id': user_id,'username':name}
         return render(request, 'Userdashboard.html',context)
     else:
         return redirect(reverse('regular_login'))  
@@ -66,6 +70,8 @@ def user_dashboard(request):
 
 def admin_dashboard(request):
     if request.session.get('user_type') == 'admin':
+        username=request.session.get('username')
+        name=username.capitalize()
         checkIn_count = CheckInOut.objects.filter(status='check-in').count()
         checkIn_users = CheckInOut.objects.filter(status='check-in')
         active_user_count = User.objects.filter(is_active=True, is_superuser=False).count()
@@ -81,7 +87,8 @@ def admin_dashboard(request):
         context = {
             'absent':active_user_count,
             'checkIn_count': checkIn_count,
-            'employee_data': employee_data
+            'employee_data': employee_data,
+            'username':name,
         }
         return render(request, 'AdminDashboard.html', context)
     else:
@@ -99,6 +106,8 @@ def user_logout(request):
 from django.contrib.auth import authenticate
 
 def change_password(request):
+    username=request.session.get('username')
+    name=username.capitalize()
     if request.session.get('user_type') == 'regular': 
             if request.method == 'POST':
                 email = request.POST.get('email')
@@ -132,13 +141,15 @@ def change_password(request):
                 messages.success(request, 'Your password was successfully updated!')
                 return redirect('change_password')
 
-            return render(request, 'userChangePassword.html')
+            return render(request, 'userChangePassword.html',{'username':name})
     else:
         return redirect(reverse('regular_login'))
 
 
 
 def user_management(request):
+    username=request.session.get('username')
+    name=username.capitalize()
     if request.session.get('user_type') == 'admin':
             if request.method == "POST":
                 username = request.POST.get("username")
@@ -156,7 +167,7 @@ def user_management(request):
                         return HttpResponse(f"An error occurred: {str(e)}")
             user_details = UserDetails.objects.filter(user__in=User.objects.all())
             users =User.objects.filter(is_superuser=False)
-            return render(request, 'UserManagement.html', {'users': users, 'user_details': user_details})
+            return render(request, 'UserManagement.html', {'users': users, 'user_details': user_details,'username':name})
     
     else:
         return redirect(reverse('regular_login'))
@@ -178,19 +189,23 @@ def update_is_active(request):
 def User_History(request):
     if request.session.get('user_type') == 'regular':
         user_id = request.session.get('user_id')
+        username=request.session.get('username')
+        name=username.capitalize()
         history=CheckInOut.objects.filter(user_id=user_id).order_by('-id')
         print(history)
-        return render(request,'userHistory.html',{'history': history})
+        return render(request,'userHistory.html',{'history': history,'username':name})
     else:
         return redirect(reverse('regular_login'))
     
 
 def Admin_History(request):
      if request.session.get('user_type') == 'admin':
+        username=request.session.get('username')
+        name=username.capitalize()
         checkinout_data = CheckInOut.objects.all()
         context = {
                     'checkinout_data': checkinout_data,
-                    
+                    'username':name,
                 }
         return render(request,'AdminHistory.html',context)
      

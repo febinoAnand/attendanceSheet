@@ -13,22 +13,26 @@
 </head>
 <body>
 <div class="background">
+    
     <div class="header">
+        <div class="roboto-black heading"></div>
         <div class="header-box">
             <div class="heading">
-                <h2 class="roboto-bold">Login</h2>
+                <h2 class="roboto-black">Login</h2>
             </div>
             
         </div>
-        <div id="popupMsg" class="alert alert-danger" style="text-align: center;margin-bottom: 0px;">
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="message">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        </div>
+        <div class="roboto-black heading"></div>
+    </div>
+    <div id="popupMsg" class="alert alert-danger" style="text-align: center;margin-bottom: 0px;margin-top: 50px;">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="Login">
+        
             <div class="email">
                 <form class="email_form" action="{% url 'regular_login' %}" method="post">
                     {% csrf_token %}

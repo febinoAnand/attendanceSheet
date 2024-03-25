@@ -8,56 +8,59 @@
    <!--<link rel="stylesheet" href="../static/css/userHistory.css">--> 
     
     <link rel="stylesheet" href="{% static 'css/userHistory.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="background">
-        <div class="header">
-                
-                
-                <div>
-
-                </div>
-                <div class="heading">
-                    <h2>History</h2>  
-                </div>
-                <div class="dropdown_btn">
-                    <div class="dropdown">
-                        <button class="dropbtn">Menu</button>
-                        
-                        <div class="dropdown-content">
-                        <a href="/userdashboard">Dashboard</a>
-                        <a href="/changePassword">Change Password</a>
-                        <a href="/logout">Logout</a>
-                        </div>
+        <header class="heading">
+            <div class="company_logo" >
+                <h1 class="roboto-black">Febino Solutions</h1>
+            </div>
+            <div class="page_title">
+                <h2 class="roboto-black">History</h2>  
+            </div>
+            <div class="dropdown_btn"">
+                <div class="dropdown">
+                    <button class="dropbtn roboto-medium">{{username}} <span class="dropdown-symbol">&#9660;</span></button>
+                    
+                    <div class="dropdown-content">
+                    <a style="text-decoration: none" href="/userdashboard">Dashboard</a>
+                    <a style="text-decoration: none" href="/changePassword">Change Password</a>
+                    <a style="text-decoration: none" href="/logout">Logout</a>
                     </div>
                 </div>
-
-        </div>
-        <div class="content">
+            </div>
+    
+        </header>
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchTable()"  placeholder="Search...">
+          </div>
            <div class="box">
-            <table>
+            <table id="myTable">
                 <thead>
                     <tr>
-                        <th>S.no</th>
-                        <th>Date</th>
-                        <th>CheckIn Time</th>
-                        <th>CheckOut Time</th>
+                        <th style="text-align:center;padding: 15px;">S.no</th>
+                        <th style="text-align:center;padding: 15px;">Date</th>
+                        <th style="text-align:center;padding: 15px;">CheckIn Time</th>
+                        <th style="text-align:center;padding: 15px;">CheckOut Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for entry in history %}
                     <tr>
-                        <td></td>
-                        <td>{{entry.date}}</td>
-                        <td>{{entry.check_in_time}}</td>
-                        <td>{{entry.check_out_time}}</td>
+                        <td class="roboto-regular"></td>
+                        <td class="roboto-regular">{{entry.date}}</td>
+                        <td class="roboto-regular">{{entry.check_in_time}}</td>
+                        <td class="roboto-regular">{{entry.check_out_time}}</td>
                         
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-           </div>
+       
             
         </div>
         <div class="footer">
@@ -65,5 +68,7 @@
             </div>
         </div>
     </div>
+
 </body>
+<script src="{% static 'js/userHistory.js' %}"></script>
 </html>

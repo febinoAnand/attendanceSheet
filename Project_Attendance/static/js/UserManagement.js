@@ -59,7 +59,7 @@ function saveEdit() {
   var password = inputs.elements[3].value;
 
   
-  validation(username, employee_id, email, password, function (isValid) {
+  validationEdit(username, employee_id, email, password, function (isValid) {
       if (isValid) {
           
           var xhttp = new XMLHttpRequest();

@@ -5,118 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!--<link rel="stylesheet" href="{% static 'css/AdminDashboard.css' %}">-->
+    <link rel="stylesheet" href="../static/css/fonts.css">
     <link rel="stylesheet" href="../static/css/AdminDashboard.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="background">
-        <div class="header">
-                
-                
-                <div>
-
-                </div>
-                <div class="heading">
-                    <h2>Dashboard</h2>  
-                </div>
-                <div class="dropdown_btn">
-                    <div class="dropdown">
-                        <button class="dropbtn">Menu</button>
-                        
-                        <div class="dropdown-content">
-                        <a href="/adminHistory">History</a>
-                        <a href="/userManagement">User Management</a>
-                        <a href="/logout">Logout</a>
+        
+                <header class="heading">
+                    <div class="company_logo" >
+                        <h1 class="roboto-black">Febino Solutions</h1>
+                    </div>
+                    <div class="page_title">
+                        <h2 class="roboto-black">Dashboard</h2>  
+                    </div>
+                    <div class="dropdown_btn"">
+                        <div class="dropdown">
+                            <button class="dropbtn roboto-medium">{{username}} <span class="dropdown-symbol">&#9660;</span></button>
+                            
+                            <div class="dropdown-content">
+                            <a style="text-decoration: none" href="/adminHistory">History</a>
+                            <a style="text-decoration: none" href="/userManagement">User Management</a>
+                            <a style="text-decoration: none" href="/logout">Logout</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-        </div>
+    
+                </header>
+                
+                
+        
         <div class="content">
            <div class="content-header">
             <div class="cur-dateAndTime">
                 <div class="date">
-                    <div>
-                        <h4>Date:</h4>
+                   <div class="roboto-regular" style="font-size: 1.5em;"><strong>Date:</strong> <span id="date" class="roboto-medium">04/02/2024</span></div>
+                    <div class="roboto-bold" style="font-size: 1.5em;">Day: <span class="roboto-medium" id="day">Wednesday</span></div>
+                    <div class="roboto-bold" style="font-size: 1.5em;">Time:
+                        <span class="roboto-medium" id="hr">11</span>:<span class="roboto-medium" id="minutes">22</span>:<span class="roboto-medium" id="seconds">33</span> <span class="roboto-medium" id="ampm">AM</span>
                     </div>
-                    <div>
-                        <h4 id="date">04/02/2024</h4>
-                    </div>
-                </div>
-                <div class="date">
-                    <div>
-                        <h4>Day:</h4>
-                    </div>
-                    <div>
-                        <h4 id="day">wednesday</h4>
-                    </div>
-                </div>
-                <div class="date">
-                    <div>
-                        <h4>Time:</h4>
-                        
-                
-                    </div>
-                    <div class="elements">
-                        <div><span id="hr">11</span></div>
-                        <div><span>:</span></div>
-                        <div><span id="minutes">22</span></div>
-                        <div><span>:</span></div>
-                        <div><span id="seconds">33</span></div>
-                        <div><span id="ampm">AM</span></div>
-                      </div>
                 </div>
             </div>
             
-                <div class="search_bar">
-                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
-                </div>
+               
             
            </div>
            <div class="box">
             <div>
                 <div class="side-heading">
-                    <h6>Present:</h6>
+                    <h6 class="roboto-bold" style="font-size: 1.5em;" >Present:</h6>
                 </div>
                 <div class="side-heading-count">
-                    <h6>{{ checkIn_count }}</h6>
+                    <h6 class="roboto-bold" style="font-size: 4em;">{{ checkIn_count }}</h6>
                 </div>
                 
             </div>
             <div>
                 <div class="side-heading">
-                    <h6>Absent:</h6>
+                    <h6 class="roboto-bold" style="font-size: 1.5em;">Absent:</h6>
                 </div>
                 <div class="side-heading-count">
-                    <h6>{{ absent }}</h6>
+                    <h6 class="roboto-bold" style="font-size: 4em;">{{ absent }}</h6>
                 </div>
             </div>
             <div>
                 <div class="side-heading">
-                    <h6>Currently Worked:</h6>
+                    <h6 class="roboto-bold" style="font-size: 1.5em;">Working:</h6>
                 </div>
                 <div class="side-heading-count">
-                    <h6>{{ checkIn_count }}</h6>
+                    <h6 class="roboto-bold" style="font-size: 4em;">{{ checkIn_count }}</h6>
                 </div>
             </div>
            </div>
+           <div class="search_bar">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
+        </div>
            <div class="Today_present">
             <table id="myTable">
                 <thead>
                     <tr>
-                        <th>S.no</th>
-                        <th>Name</th>
-                        <th>Employee ID</th>
-                        <th>Check-In Time</th>
+                        <th class="roboto-bold" style="text-align:center;padding: 15px; font-size: 20px;">S.no</th>
+                        <th class="roboto-bold" style="text-align:center;padding: 15px; font-size: 20px;">Name</th>
+                        <th class="roboto-bold" style="text-align:center;padding: 15px;font-size: 20px;">Employee ID</th>
+                        <th class="roboto-bold" style="text-align:center;padding: 15px;font-size: 20px;">Check-In Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user_data in employee_data %}
                     <tr>
-                        <td>.</td>
-                        <td>{{ user_data.username }}</td>
-                        <td>{{ user_data.employee_id }}</td>
-                        <td>{{ user_data.check_in_time }}</td>
+                        <td class="roboto-regular" style="text-align:center;padding: 15px;font-size: 20px;">.</td>
+                        <td class="roboto-regular" style="text-align:center;padding: 15px;font-size: 20px;">{{ user_data.username }}</td>
+                        <td class="roboto-regular" style="text-align:center;padding: 15px;font-size: 20px;">{{ user_data.employee_id }}</td>
+                        <td class="roboto-regular" style="text-align:center;padding: 15px;font-size: 20px;">{{ user_data.check_in_time }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

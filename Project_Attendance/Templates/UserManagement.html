@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
     <!-- <link rel="stylesheet" href="{ static ../static/css/UserManagement.css }""{% static 'myfirst.css' %}"> -->
-    <link rel="stylesheet" href="{% static 'css/UserManagement.css' %}">
+   
+    <link rel="stylesheet" href="../static/css/fonts.css">
+    <link rel="stylesheet" href="../static/css/UserManagement.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -14,28 +16,28 @@
 </head>
 <body>
     <div class="background">
-        <div class="header">
-                
-                
-                <div>
 
-                </div>
-                <div class="heading">
-                    <h2>User Management</h2>  
-                </div>
-                <div class="dropdown_btn">
-                    <div class="dropdown">
-                        <button class="dropbtn">Menu</button>
-                        
-                        <div class="dropdown-content">
-                        <a href="/admindashboard">Dashboard</a>
-                        <a href="/adminHistory">History</a>
-                        <a href="/logout">Logout</a>
-                        </div>
+        <header class="heading">
+            <div class="company_logo" >
+                <h1 class="roboto-black">Febino Solutions</h1>
+            </div>
+            <div class="page_title">
+                <h2 class="roboto-black">User Management</h2>  
+            </div>
+            <div class="dropdown_btn"">
+                <div class="dropdown">
+                    <button class="dropbtn roboto-medium">{{username}} <span class="dropdown-symbol">&#9660;</span></button>
+                    
+                    <div class="dropdown-content">
+                    <a style="text-decoration: none" href="/admindashboard">Dashboard</a>
+                    <a style="text-decoration: none" href="/adminHistory">History</a>
+                    <a style="text-decoration: none" href="/logout">Logout</a>
                     </div>
                 </div>
+            </div>
 
-        </div>
+        </header>
+
         <div class="row_for_alert" id="row">
                
         </div>
@@ -73,25 +75,25 @@
                 <table id="myTable">
                     <thead>
                         <tr>
-                            <th>S.no</th>
-                            <th>Name</th>
-                            <th>EmployeeID</th>
-                            <th>Email</th>
-                            <th>Edit</th>
-                            <th>Delete User</th>
-                            <th>Is_Active</th>
+                            <th style="text-align:center;padding: 15px;">S.no</th>
+                            <th style="text-align:center;padding: 15px;">Name</th>
+                            <th style="text-align:center;padding: 15px;">EmployeeID</th>
+                            <th style="text-align:center;padding: 15px;">Email</th>
+                            <th style="text-align:center;padding: 15px;">Edit</th>
+                            <th style="text-align:center;padding: 15px;">Delete User</th>
+                            <th style="text-align:center;padding: 15px;">Is_Active</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
                         <tr>
-                            <td></td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.userdetails.employee_id }}</td>
-                            <td>{{ user.email }}</td>
-                            <td><div class="del_btn"><button class="edit" type="submit"  id="{{user.id}}" onclick="edit(this.id)">Edit</button></div></td>
-                            <td><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></div></td>
-                            <td><div class="del_btn"> <button class="{% if user.is_active %}isActive_true{% else %}isActive_false{% endif %}"  type="submit"  id="activeBtn{{ user.id }}" onclick="activeId('{{ user.id }}', 'activeBtn{{ user.id }}', '{{ user.is_active }}')">{% if user.is_active %}Active{% else %}Inactive{% endif %}</button></div></td>
+                            <td class="roboto-regular" style="text-align:center;padding: 15px;"></td>
+                            <td class="roboto-regular"style="text-align:center;padding: 15px;">{{ user.username }}</td>
+                            <td class="roboto-regular"style="text-align:center;padding: 15px;">{{ user.userdetails.employee_id }}</td>
+                            <td class="roboto-regular" style="text-align:center;padding: 15px;">{{ user.email }}</td>
+                            <td class="roboto-regular" style="text-align:center;padding: 15px;"><div class="del_btn"><button class="edit" type="submit"  id="{{user.id}}" onclick="edit(this.id)">Edit</button></div></td>
+                            <td  class="roboto-regular"style="text-align:center;padding: 15px;"><div class="del_btn"><button class="del" type="submit"  id="{{user.id}}" onclick="del(this.id)">Delete</button></div></td>
+                            <td class="roboto-regular" style="text-align:center;padding: 15px;"><div class="del_btn"> <button class="{% if user.is_active %}isActive_true{% else %}isActive_false{% endif %}"  type="submit"  id="activeBtn{{ user.id }}" onclick="activeId('{{ user.id }}', 'activeBtn{{ user.id }}', '{{ user.is_active }}')">{% if user.is_active %}Active{% else %}Inactive{% endif %}</button></div></td>
                         </tr>
                         {% endfor %}
                     </tbody>

@@ -9,6 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/Login.css' %}">
     <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Login</title>
 </head>
 <body>
@@ -43,8 +44,7 @@
                 <form class="email_form" action="{% url 'regular_login' %}" method="post">
                     {% csrf_token %}
                     <input class="roboto-medium" name="email_or_username" type="text" placeholder="Email or username "  value="{{ email_or_username }}">
-                  
-                    <input class="roboto-medium" name="password" type="password" placeholder="Password"  value="{{ password }}">
+                    <input class="roboto-medium" name="password" type="password" placeholder="Password" value="{{ password }}">
                     
                     <button class="roboto-medium" type="submit">LOGIN</button>
                 </form>

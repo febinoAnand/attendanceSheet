@@ -53,14 +53,14 @@ def regular_login(request):
 
 
 def user_dashboard(request):
-    user_id = request.session.get('user_id')
-    username=request.session.get('username')
-    name=username.capitalize()
-    print(user_id)
-    print(username)
+    
+    
     if request.session.get('user_type') == 'regular':
-        context = {'user_id': user_id,'username':name}
-        return render(request, 'Userdashboard.html',context)
+         user_id = request.session.get('user_id')
+         username=request.session.get('username')
+         name=username.capitalize()
+         context = {'user_id': user_id,'username':name}
+         return render(request, 'Userdashboard.html',context)
     else:
         return redirect(reverse('regular_login'))  
 
@@ -103,34 +103,43 @@ def user_logout(request):
 from django.contrib.auth import authenticate
 
 def change_password(request):
-    username = request.session.get('username')
-    name = username.capitalize()
-    if request.session.get('user_type') == 'regular': 
+    if request.session.get('user_type') == 'regular':
+        username = request.session.get('username')
+        name = username.capitalize() 
         if request.method == 'POST':
             old_password = request.POST.get('Old_Password')
             new_password = request.POST.get('new_password')
             password_confirmation = request.POST.get('password_confirmation')
             if not (username and old_password and new_password and password_confirmation):
                 messages.error(request, "All fields are required.")
+                return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'re-enterPassword':password_confirmation})
             else:
                 try:
                     user = User.objects.get(username=username)
                 except User.DoesNotExist:
                     messages.error(request, 'Something went wrong! Please try again later.')
+                    return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'reenterPassword':password_confirmation})
                 else:
                     if not user.check_password(old_password):
                         messages.error(request, 'Old password is incorrect.')
+                        return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'reenterPassword':password_confirmation})
+                    elif user.check_password(new_password):
+                        messages.error(request,'Old password and New Password should not be same')
+                        return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'reenterPassword':password_confirmation})
                     elif new_password != password_confirmation:
                         messages.error(request, 'Password confirmation does not match.')
+                        return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'reenterPassword':password_confirmation})
                     else:
                         try:
                             validate_password(new_password, user=user)
                         except ValidationError as e:
                             messages.error(request, '\n'.join(e))
+                            return render(request,'userChangePassword.html',{'oldPassword':old_password,'newPassword':new_password,'reenterPassword':password_confirmation})
                         else:
                             user.set_password(new_password)
                             user.save()
                             messages.success(request, 'Your password was successfully updated!')
+                           
     else:
         return redirect(reverse('regular_login'))
     
@@ -140,9 +149,10 @@ def change_password(request):
 
 
 def user_management(request):
-    username=request.session.get('username')
-    name=username.capitalize()
+    
     if request.session.get('user_type') == 'admin':
+            username=request.session.get('username')
+            name=username.capitalize()
             if request.method == "POST":
                 username = request.POST.get("username")
                 employee_id = request.POST.get("employee_id")

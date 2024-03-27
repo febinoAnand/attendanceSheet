@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login</title>
+</head>
+<body>
+<div class="background">
+    
+    <div class="header">
+        <div class="roboto-black heading"></div>
+        <div class="header-box">
+            <div class="heading">
+                <h2 class="roboto-black">Login</h2>
+            </div>
+            
+        </div>
+        <div class="roboto-black heading"></div>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+        {% if "error" in message.tags %}
+            <div class="alert alert-danger" style="text-align: center; margin-bottom: 0px; width: 100%;margin-top: 50px;">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success" style="text-align: center; margin-bottom: 0px; width: 100%;margin-top: 50px;">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    <div class="Login">
+        
+            <div class="email">
+                <form class="email_form" action="{% url 'regular_login' %}" method="post">
+                    {% csrf_token %}
+                    <input class="roboto-medium" name="email_or_username" type="text" placeholder="Email or username "  value="{{ email_or_username }}">
+                    <input class="roboto-medium" name="password" type="password" placeholder="Password" value="{{ password }}">
+                    
+                    <button class="roboto-medium" type="submit">LOGIN</button>
+                </form>
+            </div>
+    </div>
+    <div class="footer">
+        <div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+         var alerts = document.querySelectorAll('.alert');
+         alerts.forEach(function(alert) {
+             setTimeout(function() {
+                 alert.style.display = 'none';
+             }, 5000);
+         });
+     });
+  </script>
+</body>
+
+
+</html>

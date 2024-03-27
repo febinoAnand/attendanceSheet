@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1,
+.title h2 {
+    margin: 0; /* Remove default margin */
+}
+
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+.menu-toggle div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu-toggle.active div:first-child {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active div:last-child {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    display: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu.active {
+    display: block;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul li {
+    margin-bottom: 10px;
+}
+
+.menu ul li:last-child {
+    margin-bottom: 0;
+}
+
+.menu ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 10px;
+    }
+
+    .title {
+        display: none; /* Hide title on smaller screens */
+    }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+    }
+
+    .menu-toggle div {
+        background-color: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .menu-toggle.active div:first-child {
+        transform: rotate(45deg) translate(2px, 5px);
+    }
+
+    .menu-toggle.active div:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active div:last-child {
+        transform: rotate(-45deg) translate(2px, -5px);
+    }
+
+    .menu {
+        padding: 0;
+        text-align: left;
+    }
+
+    .menu ul li {
+        margin-bottom: 0;
+    }
+}

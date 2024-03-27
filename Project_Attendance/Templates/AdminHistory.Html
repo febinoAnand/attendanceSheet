@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin History</title>
+    <link rel="stylesheet" href="{% static 'css/AdminHistory.css' %}">
+    <link rel="stylesheet" href="../static/css/AdminHistory.css">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="background">
+        <header class="heading">
+            <div class="company_logo" >
+                <h1 class="roboto-black">Febino Solutions</h1>
+            </div>
+            <div class="page_title">
+                <h2 class="roboto-black">Admin History</h2>  
+            </div>
+            <div class="dropdown_btn"">
+                <div class="dropdown">
+                    <button class="dropbtn roboto-medium">{{username}} <span class="dropdown-symbol">&#9660;</span></button>
+                    
+                    <div class="dropdown-content">
+                    <a style="text-decoration: none" href="/admindashboard">Dashboard</a>
+                    <a style="text-decoration: none" href="/userManagement">User Management</a>
+                    <a style="text-decoration: none" href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+        <div class="row_for_alert" id="row">
+               
+        </div>
+        <div class="content">
+           <div class="input_fields">
+            <form class="input_fields_form" id="My_form" action="#">
+                    <div class="input_bar">
+                        <label class="roboto-bold" for="fromdate">From Date:</label>
+                        <input class="roboto-thin" type="date" name="fromdate">
+                    </div>
+                    <div class="input_bar">
+                        <label class="roboto-bold" for="fromdate">To Date:</label>
+                        <input class="roboto-thin" type="date" name="todate">
+                    </div>
+                    
+                    <div class="input_bar">
+                        <button class="roboto-bold" id="myBtn" onclick="form_input()">GO</button>
+                    </div>
+            </form>
+            <div class="search_bar">
+                <input class="roboto-thin" type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
+            </div>
+           </div>
+           <div class="user_details">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;padding: 15px;">S.no</th>
+                        <th style="text-align:center;padding: 15px;">Name</th>
+                        <th style="text-align:center;padding: 15px;">EmployeeID</th>
+                        <th style="text-align:center;padding: 15px;">Date</th>
+                        <th style="text-align:center;padding: 15px;">CheckIn Time</th>
+                        <th style="text-align:center;padding: 15px;">CheckOut Time</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    {% for data in checkinout_data %}
+                    <tr>
+                        <td class="roboto-regular">.</td>
+                        <td class="roboto-regular">{{ data.user.username }}</td>
+                        <td class="roboto-regular">{{data.user.userdetails.employee_id }}</td>
+                        <td class="roboto-regular">{{ data.date }}</td>
+                        <td class="roboto-regular">{{ data.check_in_time }}</td>
+                        <td class="roboto-regular">{{ data.check_out_time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           </div>
+            
+        </div>
+        <div class="footer">
+            <div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/AdminHistory.js' %}"></script>
+</html>

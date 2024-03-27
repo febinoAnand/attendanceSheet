@@ -24,21 +24,27 @@
         </div>
         <div class="roboto-black heading"></div>
     </div>
-    <div id="popupMsg" class="alert alert-danger" style="text-align: center;margin-bottom: 0px;margin-top: 50px;">
-        {% if messages %}
-            {% for message in messages %}
-                <p class="message">{{ message }}</p>
-            {% endfor %}
+    {% if messages %}
+    {% for message in messages %}
+        {% if "error" in message.tags %}
+            <div class="alert alert-danger" style="text-align: center; margin-bottom: 0px; width: 100%;margin-top: 50px;">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-success" style="text-align: center; margin-bottom: 0px; width: 100%;margin-top: 50px;">
+                {{ message }}
+            </div>
         {% endif %}
-    </div>
+    {% endfor %}
+{% endif %}
     <div class="Login">
         
             <div class="email">
                 <form class="email_form" action="{% url 'regular_login' %}" method="post">
                     {% csrf_token %}
-                    <input class="roboto-medium" name="email_or_username" type="text" placeholder="Email or username ">
+                    <input class="roboto-medium" name="email_or_username" type="text" placeholder="Email or username "  value="{{ email_or_username }}">
                   
-                    <input class="roboto-medium" name="password" type="password" placeholder="Password">
+                    <input class="roboto-medium" name="password" type="password" placeholder="Password"  value="{{ password }}">
                     
                     <button class="roboto-medium" type="submit">LOGIN</button>
                 </form>
@@ -54,22 +60,15 @@
 
     
 <script>
-   var popup = document.getElementById("popupMsg");
-
-function displayPopup() {
-    setTimeout(function() {
-        popup.style.display = "none";
-    }, 3000);
-}
-var messages = document.querySelectorAll('.message');
-if (messages.length > 0) {
-    displayPopup();
-}
-else {
-    popup.style.display = "none";  
-}
-
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+         var alerts = document.querySelectorAll('.alert');
+         alerts.forEach(function(alert) {
+             setTimeout(function() {
+                 alert.style.display = 'none';
+             }, 5000);
+         });
+     });
+  </script>
 </body>
 
 

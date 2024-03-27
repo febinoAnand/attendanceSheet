@@ -20,37 +20,34 @@ from django.core.exceptions import ValidationError
 
 @csrf_protect
 def regular_login(request):
-    user = None
     if request.method == "POST":
         email_or_username = request.POST.get("email_or_username")
         password = request.POST.get("password")
         if not email_or_username:
             messages.error(request, "Please enter your email or username.")
-            return redirect(reverse('regular_login'))
-
-        
-        if not password:
+        elif not password:
             messages.error(request, "Please enter your password.")
-            return redirect(reverse('regular_login'))
-
-        currentUser = User.objects.filter(email=email_or_username).first()
-        if currentUser is not None:
-                user = authenticate(username=currentUser.username, password=password)
-                print("user",user)
-        if user is None:
-            user = authenticate(username=email_or_username, password=password)
-        if user is not None:
-            request.session['user_id'] = user.id
-            request.session['username']=user.username
-            request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
-            if user.is_superuser:
-                return redirect('admin_dashboard')
-            else:
-                return redirect('user_dashboard')
         else:
-            messages.error(request, "Invalid email/username or password.")
-            return redirect(reverse('regular_login'))
-    
+            user = None
+            currentUser = User.objects.filter(email=email_or_username).first()
+            if currentUser is not None:
+                user = authenticate(username=currentUser.username, password=password)
+            if user is None:
+                user = authenticate(username=email_or_username, password=password)
+            if user is not None:
+                request.session['user_id'] = user.id
+                request.session['username'] = user.username
+                request.session['user_type'] = 'admin' if user.is_superuser else 'regular'  
+                if user.is_superuser:
+                    return redirect('admin_dashboard')
+                else:
+                    return redirect('user_dashboard')
+            else:
+                messages.error(request, "Invalid User or Password!!!.")
+                return render(request, 'Login.html', {'email_or_username': email_or_username, 'password': password})
+             
+      
+        return render(request, 'Login.html', {'email_or_username': email_or_username, 'password': password})
     
     return render(request, 'Login.html')
 
@@ -106,44 +103,39 @@ def user_logout(request):
 from django.contrib.auth import authenticate
 
 def change_password(request):
-    username=request.session.get('username')
-    name=username.capitalize()
+    username = request.session.get('username')
+    name = username.capitalize()
     if request.session.get('user_type') == 'regular': 
-            if request.method == 'POST':
-                email = request.POST.get('email')
-                old_password = request.POST.get('Old_Password')
-                new_password = request.POST.get('new_password')
-                password_confirmation = request.POST.get('password_confirmation')
-                if not (email and old_password and new_password and password_confirmation):
-                    messages.error(request, "All fields are required.")
-                    return redirect('change_password')
+        if request.method == 'POST':
+            old_password = request.POST.get('Old_Password')
+            new_password = request.POST.get('new_password')
+            password_confirmation = request.POST.get('password_confirmation')
+            if not (username and old_password and new_password and password_confirmation):
+                messages.error(request, "All fields are required.")
+            else:
                 try:
-                    user = User.objects.get(email=email)
+                    user = User.objects.get(username=username)
                 except User.DoesNotExist:
-                    messages.error(request, 'No user found with this email address.')
-                    return redirect('change_password')
-                if not user.check_password(old_password):
-                    messages.error(request, 'Old password is incorrect.')
-                    return redirect('change_password')
-
-                if new_password != password_confirmation:
-                    messages.error(request, 'Password confirmation does not match.')
-                    return redirect('change_password')
-
-                try:
-                    validate_password(new_password, user=user)
-                except ValidationError as e:
-                    messages.error(request, '\n'.join(e))
-                    return redirect('change_password')
-
-                user.set_password(new_password)
-                user.save()
-                messages.success(request, 'Your password was successfully updated!')
-                return redirect('change_password')
-
-            return render(request, 'userChangePassword.html',{'username':name})
+                    messages.error(request, 'Something went wrong! Please try again later.')
+                else:
+                    if not user.check_password(old_password):
+                        messages.error(request, 'Old password is incorrect.')
+                    elif new_password != password_confirmation:
+                        messages.error(request, 'Password confirmation does not match.')
+                    else:
+                        try:
+                            validate_password(new_password, user=user)
+                        except ValidationError as e:
+                            messages.error(request, '\n'.join(e))
+                        else:
+                            user.set_password(new_password)
+                            user.save()
+                            messages.success(request, 'Your password was successfully updated!')
     else:
         return redirect(reverse('regular_login'))
+    
+    return render(request, 'userChangePassword.html', {'username': name})
+   
 
 
 
